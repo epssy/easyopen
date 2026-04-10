@@ -1,6 +1,6 @@
 # Easy Open
 
-A simple CLI that opens third-party tools in Safari.
+A simple app that opens third-party web tools from the CLI.
 
 ```
 $ eo dd          # opens Datadog
@@ -18,7 +18,15 @@ Add the `bin/` directory to your `PATH`:
 
 ```bash
 # ~/.zshrc or ~/.bashrc
-export PATH="$HOME/ruby/eo/bin:$PATH"
+export PATH="$HOME/Code/ruby/eo/bin:$PATH"
+```
+
+### Configuration
+
+Create `~/.eorc` to customize the browser (defaults to Safari):
+
+```yaml
+browser: Google Chrome
 ```
 
 ### Tab completion

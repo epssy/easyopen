@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "eo/cli"
+require_relative "eo/config"
 require_relative "eo/opener"
 require_relative "eo/registry"
 
