@@ -8,8 +8,10 @@ require_relative "../lib/eo/cli"
 
 class CLITest < Minitest::Test
   def setup
-    @saved = Eo::Registry.instance_variable_get(:@sites).dup
+    @saved_sites = Eo::Registry.instance_variable_get(:@sites).dup
+    @saved_aliases = Eo::Registry.instance_variable_get(:@aliases).dup
     Eo::Registry.instance_variable_set(:@sites, {})
+    Eo::Registry.instance_variable_set(:@aliases, {})
 
     Eo::Registry.register("ex", Eo::Site.new(
       description: "Example",
@@ -24,7 +26,8 @@ class CLITest < Minitest::Test
   end
 
   def teardown
-    Eo::Registry.instance_variable_set(:@sites, @saved)
+    Eo::Registry.instance_variable_set(:@sites, @saved_sites)
+    Eo::Registry.instance_variable_set(:@aliases, @saved_aliases)
     Eo::Opener.define_singleton_method(:open) { |url| system("open", "-a", "Safari", url) }
   end
 
