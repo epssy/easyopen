@@ -19,5 +19,9 @@ module Eo
     def self.each(&block)
       @sites.sort.each(&block)
     end
+
+    def self.all_names
+      @aliases.keys.sort
+    end
   end
 end

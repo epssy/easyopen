@@ -3,6 +3,12 @@
 module Eo
   module CLI
     def self.run(args)
+      if args.first == "--completions"
+        args.shift
+        print_completions(args.first)
+        exit
+      end
+
       site_name = args.shift
       subcommand = args.shift
 
@@ -31,6 +37,15 @@ module Eo
       end
 
       Opener.open(url)
+    end
+
+    def self.print_completions(site_name)
+      if site_name.nil?
+        puts Registry.all_names
+      else
+        site = Registry.fetch(site_name)
+        site&.subcommands&.each { |name, _| puts name }
+      end
     end
   end
 end
