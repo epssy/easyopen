@@ -23,10 +23,26 @@ export PATH="$HOME/Code/ruby/eo/bin:$PATH"
 
 ### Configuration
 
-Create `~/.eorc` to customize the browser (defaults to Safari):
+Create `~/.eorc` to customize behaviour:
 
 ```yaml
 browser: Google Chrome
+
+accounts:
+  dd:
+    production: https://app.datadoghq.com
+    staging: https://app.datadoghq.eu
+  aws:
+    root: https://123456789012.signin.aws.amazon.com/console
+    iam: https://567890123456.signin.aws.amazon.com/console
+```
+
+Use `-a` to select an account:
+
+```
+$ eo -a staging dd          # opens Datadog staging
+$ eo -a staging dd metrics  # opens Datadog staging, then metrics subcommand
+$ eo -a root aws            # opens AWS root account console
 ```
 
 ### Tab completion

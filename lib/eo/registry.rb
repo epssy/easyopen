@@ -23,5 +23,12 @@ module Eo
     def self.all_names
       @aliases.keys.sort
     end
+
+    def self.names_for(name)
+      primary = @aliases[name.to_s]
+      return [] unless primary
+
+      @aliases.select { |_, v| v == primary }.keys
+    end
   end
 end

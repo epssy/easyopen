@@ -1,21 +1,64 @@
 #compdef eo
 
-_eo() {
-  local curcontext="$curcontext" state
-  _arguments '1:site:->sites' '2:subcommand:->subcommands'
+_eo_find_site() {
+  local -i i=2 skip=0
+  for (( i=2; i <= ${#words}; i++ )); do
+    if (( skip )); then
+      skip=0
+      continue
+    fi
+    case "${words[$i]}" in
+      -a|--account) skip=1 ;;
+      -*) ;;
+      *) echo "${words[$i]}"; return ;;
+    esac
+  done
+}
 
-  case $state in
-    sites)
-      local -a sites
-      sites=(${(f)"$(eo --completions)"})
-      _describe 'site' sites
-      ;;
-    subcommands)
-      local -a subs
-      subs=(${(f)"$(eo --completions "$words[2]")"})
-      [[ ${#subs} -gt 0 ]] && _describe 'subcommand' subs
-      ;;
-  esac
+_eo() {
+  local cur="${words[$CURRENT]}" prev="${words[$((CURRENT-1))]}"
+
+  # completing account value after -a/--account
+  if [[ "$prev" == "-a" || "$prev" == "--account" ]]; then
+    local site_name="$(_eo_find_site)"
+    if [[ -n "$site_name" ]]; then
+      local -a accts
+      accts=(${(f)"$(eo --completions accounts "$site_name")"})
+      [[ ${#accts} -gt 0 ]] && _describe 'account' accts
+    fi
+    return
+  fi
+
+  # count positional args so far (skip flags and their values)
+  local -i positional=0 i=2 skip=0
+  local site_name=""
+  for (( i=2; i < CURRENT; i++ )); do
+    if (( skip )); then
+      skip=0
+      continue
+    fi
+    case "${words[$i]}" in
+      -a|--account) skip=1 ;;
+      -*) ;;
+      *)
+        (( positional++ ))
+        [[ $positional -eq 1 ]] && site_name="${words[$i]}"
+        ;;
+    esac
+  done
+
+  if [[ $positional -eq 0 ]]; then
+    # completing site name (or -a flag)
+    local -a sites
+    sites=(${(f)"$(eo --completions)"})
+    _describe 'site' sites
+    _alternative 'options:option:((-a\:"Select account" --account\:"Select account"))'
+  elif [[ $positional -eq 1 && -n "$site_name" ]]; then
+    # completing subcommand
+    local -a subs
+    subs=(${(f)"$(eo --completions "$site_name")"})
+    [[ ${#subs} -gt 0 ]] && _describe 'subcommand' subs
+  fi
 }
 
 _eo "$@"
