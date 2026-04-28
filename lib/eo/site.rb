@@ -2,11 +2,12 @@
 
 module Eo
   class Site
-    attr_reader :description
+    attr_reader :description, :note
 
-    def initialize(description:, default_url:, &block)
+    def initialize(description:, default_url:, note: nil, &block)
       @description = description
       @default_url = default_url
+      @note = note
       @routes = {}
       block&.call(self)
     end

@@ -56,6 +56,7 @@ module Eo
         exit 1
       end
 
+      puts site.note if site.note
       Opener.open(url)
     end
 

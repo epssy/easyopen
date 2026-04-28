@@ -11,7 +11,8 @@ require_relative "../lib/eo/site"
 
 Eo::Registry.register "example", Eo::Site.new(
   description: "Example (template)",
-  default_url: "https://example.com"
+  default_url: "https://example.com",
+  note: "Auth via Okta SSO" # optional — printed to the terminal when opened
 ) { |s|
   s.route "help",  url: "https://example.com/help",  description: "Help center"
   s.route "docs",  url: "https://example.com/docs",  description: "Documentation"

@@ -81,6 +81,9 @@ Eo::Registry.register "ms", "myservice", Eo::Site.new(
 The first name is the short alias, additional names are long aliases. Both
 `eo ms` and `eo myservice` will work. Routes are optional.
 
+Pass an optional `note:` to print a message to the terminal when the site is
+opened (e.g. `note: "Auth via Okta SSO"`).
+
 ## Running tests
 
 ```
